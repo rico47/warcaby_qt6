@@ -230,13 +230,16 @@ class CheckersGameGUI(QWidget):
         self.status_label.setText(self.game_logic.get_message())
         # Change status label color based on current player's turn
         if self.game_logic.get_current_player() == 1:  # White player
-            self.status_label.setStyleSheet("font-size: 16px; font-weight: bold; margin-top: 10px; color: blue;")
+            self.status_label.setStyleSheet(
+                "font-size: 16px; font-weight: bold; margin-top: 10px; color: #00008B;")  # Darker blue
         else:  # Black player
-            self.status_label.setStyleSheet("font-size: 16px; font-weight: bold; margin-top: 10px; color: red;")
+            self.status_label.setStyleSheet(
+                "font-size: 16px; font-weight: bold; margin-top: 10px; color: #8B0000;")  # Darker red
 
         # Special styling for game over message
         if "Koniec gry!" in self.game_logic.get_message():
-            self.status_label.setStyleSheet("font-size: 18px; font-weight: bold; margin-top: 10px; color: purple;")
+            self.status_label.setStyleSheet(
+                "font-size: 18px; font-weight: bold; margin-top: 10px; color: #800080;")  # Darker purple
 
     def clear_highlights(self):
         """Removes highlights from all squares."""
@@ -325,7 +328,8 @@ class CheckersGameGUI(QWidget):
 
             # If the same piece is clicked again, deselect it
             if clicked_pos == start_pos:
-                self.selected_square.deselect()
+                if self.selected_square:  # Deselect if it's currently selected
+                    self.selected_square.deselect()
                 self.selected_square = None
                 self.game_logic.selected_piece_pos = None
                 self.clear_highlights()
@@ -471,7 +475,7 @@ class CheckersGameGUI(QWidget):
         dialog.setFixedSize(300, 250)  # Fixed size for the dialog
         dialog_layout = QVBoxLayout()
         dialog_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        dialog.setStyleSheet("background-color: #F0F0F0; border-radius: 10px;")
+        dialog.setStyleSheet("background-color: darkgray; border-radius: 10px;")  # Slightly brighter background
 
         # Difficulty selection
         difficulty_label = QLabel("Wybierz trudność AI:")
@@ -489,7 +493,7 @@ class CheckersGameGUI(QWidget):
                 border: 1px solid gray;
                 border-radius: 5px;
                 padding: 5px;
-                background: white;
+                background: gray;
                 selection-background-color: #A3D900;
             }
             QComboBox::drop-down {
@@ -515,13 +519,13 @@ class CheckersGameGUI(QWidget):
         color_radio_group = QButtonGroup(dialog)
 
         white_radio = QRadioButton("Białe (pierwszy ruch)")
-        white_radio.setStyleSheet("color: blue;")
+        white_radio.setStyleSheet("color: black;")  # Changed to black for better readability
         white_radio.setChecked(self.game_logic.get_player_color() == 1)
         color_radio_group.addButton(white_radio, 1)  # Value 1 for white
         color_radio_layout.addWidget(white_radio)
 
         black_radio = QRadioButton("Czarne")
-        black_radio.setStyleSheet("color: red;")
+        black_radio.setStyleSheet("color: black;")  # Changed to black for better readability
         black_radio.setChecked(self.game_logic.get_player_color() == 2)
         color_radio_group.addButton(black_radio, 2)  # Value 2 for black
         color_radio_layout.addWidget(black_radio)
